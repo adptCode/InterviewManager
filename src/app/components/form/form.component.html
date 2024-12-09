@@ -20,8 +20,8 @@
       <label for="surname" class="form-label">Apellido</label>
       <input id="surname" class="form-control" formControlName="surname"
       [ngClass]="{'is-invalid': hasErrors('surname', 'required') || hasErrors('surname', 'pattern')}"/>
-      <span *ngIf="hasErrors('name', 'required')" class="text-danger">El campo Apellido es obligatorio.</span>
-      <span *ngIf="hasErrors('name', 'pattern')" class="text-danger">El apellido solo puede contener letras y espacios (2-50 caracteres).</span>
+      <span *ngIf="hasErrors('surname', 'required')" class="text-danger">El campo Apellido es obligatorio.</span>
+      <span *ngIf="hasErrors('surname', 'pattern')" class="text-danger">El apellido solo puede contener letras y espacios (2-50 caracteres).</span>
     </div>
     <div class="mb-3">
       <label for="email" class="form-label">Correo electrónico</label>
@@ -49,11 +49,13 @@
     <div *ngIf="selectedType === 'Segunda entrevista'">
       <div class="mb-3">
         <label for="technicalQuestionsScore" class="form-label">Puntuación de preguntas técnicas</label>
-        <input id="technicalQuestionsScore" type="number" class="form-control" formControlName="technicalQuestionsScore" />
+        <input id="technicalQuestionsScore" type="number" class="form-control" formControlName="technicalQuestionsScore" placeholder="Introduce un valor"
+        [ngClass]="{'is-invalid': hasErrors('technicalQuestionsScore', 'required')}" />
+        <span *ngIf="hasErrors('technicalQuestionsScore', 'required')" class="text-danger">El campo Puntuación de preguntas técnicas es obligatorio.</span>
       </div>
       <div class="mb-3">
         <label for="technicalTestScore" class="form-label">Puntuación de la prueba técnica</label>
-        <input id="technicalTestScore" type="number" class="form-control" formControlName="technicalTestScore" />
+        <input id="technicalTestScore" type="number" class="form-control" formControlName="technicalTestScore" placeholder="Introduce un valor" />
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>

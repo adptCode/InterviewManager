@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,7 +11,7 @@ export class FormComponent implements OnInit {
   form!: FormGroup;
   selectedType: 'Primera entrevista' | 'Segunda entrevista' = 'Primera entrevista';
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -36,6 +36,7 @@ export class FormComponent implements OnInit {
     if (target) {
       this.selectedType = target.value as 'Primera entrevista' | 'Segunda entrevista';
       this.updateFormFields();
+      this.cdr.detectChanges(); // Actualiza la vista del componente
     } else {
       console.error('Event target is null or not an HTMLSelectElement');
     }
@@ -47,6 +48,7 @@ export class FormComponent implements OnInit {
       this.form.get('physicalDescription')?.setValidators([]);
       this.form.get('skillsDescription')?.setValidators([]);
       this.form.get('technicalQuestionsScore')?.clearValidators();
+      this.form.get('technicalQuestionsScore')?.setValue(null);
     } else {
       this.form.get('technicalQuestionsScore')?.setValidators([Validators.required]);
       this.form.get('physicalDescription')?.clearValidators();
@@ -67,7 +69,8 @@ export class FormComponent implements OnInit {
     if (this.form.valid) {
       console.log('Datos del formulario:', this.form.value);
     } else {
-      console.error('Formulario inválido', this.form.errors);
+      console.error('Formulario inválido');
+      this.form.markAllAsTouched(); // Marca todos los campos como tocados para mostrar los errores
     }
   }
 
