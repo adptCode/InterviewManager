@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { FormComponent } from './components/form/form.component';
 import { ListComponent } from './components/list/list.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FilterComponent } from './components/filter/filter.component';
     FilterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule // He eligido ReactiveForms para el formulario
   ],
   providers: [],
   bootstrap: [AppComponent]

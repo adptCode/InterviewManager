@@ -1,1 +1,62 @@
-<p>form works!</p>
+<div class="container">
+  <h2>Introducir datos de la entrevista</h2>
+  <div class="mb-3">
+    <label for="typeSelector" class="form-label">Tipo de entrevista</label>
+    <select id="typeSelector" class="form-select" (change)="onTypeChange($event)">
+      <option value="Primera entrevista">Primera entrevista</option>
+      <option value="Segunda entrevista">Segunda entrevista</option>
+    </select>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input id="name" class="form-control" formControlName="name"
+      [ngClass]="{'is-invalid': hasErrors('name', 'required') || hasErrors('name', 'pattern')}"/>
+      <span *ngIf="hasErrors('name', 'required')" class="text-danger">El campo Nombre es obligatorio.</span>
+      <span *ngIf="hasErrors('name', 'pattern')" class="text-danger">El nombre solo puede contener letras y espacios (2-50 caracteres).</span>
+    </div>
+    <div class="mb-3">
+      <label for="surname" class="form-label">Apellido</label>
+      <input id="surname" class="form-control" formControlName="surname"
+      [ngClass]="{'is-invalid': hasErrors('surname', 'required') || hasErrors('surname', 'pattern')}"/>
+      <span *ngIf="hasErrors('name', 'required')" class="text-danger">El campo Apellido es obligatorio.</span>
+      <span *ngIf="hasErrors('name', 'pattern')" class="text-danger">El apellido solo puede contener letras y espacios (2-50 caracteres).</span>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo electrónico</label>
+      <input id="email" class="form-control" formControlName="email"
+      [ngClass]="{'is-invalid': hasErrors('email', 'required') || hasErrors('email', 'pattern')}"/>
+      <span *ngIf="hasErrors('email', 'required')" class="text-danger">El campo Correo electrónico es obligatorio.</span>
+      <span *ngIf="hasErrors('email', 'pattern')" class="text-danger">Introduce una dirección de correo válida.</span>
+    </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Teléfono</label>
+      <input id="phone" class="form-control" formControlName="phone"
+      [ngClass]="{'is-invalid': hasErrors('phone', 'pattern')}"/>
+      <span *ngIf="hasErrors('phone', 'pattern')" class="text-danger">El número de teléfono debe tener entre 9 y 15 dígitos y puede comenzar con +.</span>
+    </div>
+    <div *ngIf="selectedType === 'Primera entrevista'">
+      <div class="mb-3">
+        <label for="physicalDescription" class="form-label">Descripción física</label>
+        <input id="physicalDescription" class="form-control" formControlName="physicalDescription" />
+      </div>
+      <div class="mb-3">
+        <label for="skillsDescription" class="form-label">Descripción de habilidades</label>
+        <input id="skillsDescription" class="form-control" formControlName="skillsDescription" />
+      </div>
+    </div>
+    <div *ngIf="selectedType === 'Segunda entrevista'">
+      <div class="mb-3">
+        <label for="technicalQuestionsScore" class="form-label">Puntuación de preguntas técnicas</label>
+        <input id="technicalQuestionsScore" type="number" class="form-control" formControlName="technicalQuestionsScore" />
+      </div>
+      <div class="mb-3">
+        <label for="technicalTestScore" class="form-label">Puntuación de la prueba técnica</label>
+        <input id="technicalTestScore" type="number" class="form-control" formControlName="technicalTestScore" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+</div>
+
