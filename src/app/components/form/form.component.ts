@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Interview } from 'src/app/models/interview.model';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-form',
@@ -11,7 +13,11 @@ export class FormComponent implements OnInit {
   form!: FormGroup;
   selectedType: 'Primera entrevista' | 'Segunda entrevista' = 'Primera entrevista';
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) { }
+  constructor(
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private storageService: StorageService
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -67,7 +73,14 @@ export class FormComponent implements OnInit {
   // Envía los datos del formulario si son válidos
   onSubmit(): void {
     if (this.form.valid) {
-      console.log('Datos del formulario:', this.form.value);
+      const interview: Interview = {
+        ...this.form.value,
+        type: this.selectedType
+      };
+      this.storageService.addInterview(interview);
+      console.log('Entrevista guardada:', interview);
+      this.form.reset();
+      this.selectedType = 'Primera entrevista'; // Repristina el tipo de entrevista
     } else {
       console.error('Formulario inválido');
       this.form.markAllAsTouched(); // Marca todos los campos como tocados para mostrar los errores
