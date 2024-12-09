@@ -1,1 +1,37 @@
-<p>list works!</p>
+<div class="container mt-4">
+  <h3>Listado de Entrevistas</h3>
+
+  <!-- Selector de filtro -->
+  <div class="mb-3">
+    <label for="filter" class="form-label">Filtrar por tipo</label>
+    <select id="filter" class="form-select" [(ngModel)]="selectedFilter">
+      <option value="all">Todos</option>
+      <option value="primera">Primera entrevista</option>
+      <option value="segunda">Segunda entrevista</option>
+    </select>
+  </div>
+
+  <!-- Tabla de entrevistas -->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let interview of getFilteredInterviews()"
+        [ngClass]="{'table-success': hasBothInterviews(interview.email)}"
+      >
+        <td>{{ interview.name }}</td>
+        <td>{{ interview.surname }}</td>
+        <td>{{ interview.email }}</td>
+        <td>{{ interview.type }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
