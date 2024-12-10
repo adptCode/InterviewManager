@@ -5,9 +5,30 @@ import { Interview } from '../models/interview.model';
   providedIn: 'root'
 })
 export class StorageService {
-  private interviews: Interview[] = []; // Array para almacenar todas las entrevistas
+  private interviewsKey = 'interviews'; // Clave para localStorage
 
-  constructor() {}
+  constructor() {
+    this.loadInterviews();
+  }
+
+  private interviews: Interview[] = []; // Array para almacenar las entrevistas
+
+  /**
+   * Carga las entrevistas desde localStorage al inicializar el servicio.
+   */
+  private loadInterviews(): void {
+    const data = localStorage.getItem(this.interviewsKey);
+    if (data) {
+      this.interviews = JSON.parse(data);
+    }
+  }
+
+  /**
+   * Guarda las entrevistas en localStorage.
+   */
+  private saveInterviews(): void {
+    localStorage.setItem(this.interviewsKey, JSON.stringify(this.interviews));
+  }
 
   /**
    * Obtiene todas las entrevistas almacenadas.
@@ -27,6 +48,7 @@ export class StorageService {
     );
     if (!exists) {
       this.interviews.push(interview);
+      this.saveInterviews(); // Guardar en localStorage
     }
   }
 
@@ -51,4 +73,3 @@ export class StorageService {
     return types.includes('Primera entrevista') && types.includes('Segunda entrevista');
   }
 }
-

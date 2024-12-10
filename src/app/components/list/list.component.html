@@ -18,7 +18,12 @@
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Email</th>
-        <th>Tipo</th>
+        <th>Teléfono</th>
+        <!-- Encabezados dinámicos -->
+        <th *ngIf="selectedFilter === 'all' || selectedFilter === 'primera'">Descripción Física</th>
+        <th *ngIf="selectedFilter === 'all' || selectedFilter === 'primera'">Descripción de Aptitudes</th>
+        <th *ngIf="selectedFilter === 'all' || selectedFilter === 'segunda'">Nota Preguntas Técnicas</th>
+        <th *ngIf="selectedFilter === 'all' || selectedFilter === 'segunda'">Nota Prueba Técnica</th>
       </tr>
     </thead>
     <tbody>
@@ -29,9 +34,18 @@
         <td>{{ interview.name }}</td>
         <td>{{ interview.surname }}</td>
         <td>{{ interview.email }}</td>
-        <td>{{ interview.type }}</td>
+        <td>{{ interview.phone || 'N/A' }}</td>
+
+        <!-- Campos dinámicos para Primera Entrevista -->
+        <td *ngIf="interview.type === 'Primera entrevista'">{{ interview.physicalDescription || 'N/A' }}</td>
+        <td *ngIf="interview.type === 'Primera entrevista'">{{ interview.skillsDescription || 'N/A' }}</td>
+
+        <!-- Campos dinámicos para Segunda Entrevista -->
+        <td *ngIf="interview.type === 'Segunda entrevista'">{{ interview.technicalQuestionsScore || 'N/A' }}</td>
+        <td *ngIf="interview.type === 'Segunda entrevista'">{{ interview.technicalTestScore || 'N/A' }}</td>
       </tr>
     </tbody>
   </table>
 </div>
+
 
