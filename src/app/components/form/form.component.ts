@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Interview } from 'src/app/models/interview.model';
 import { StorageService } from 'src/app/services/storage.service';
@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
+  @Output() interviewAdded = new EventEmitter<void>();
 
   form!: FormGroup;
   selectedType: 'Primera entrevista' | 'Segunda entrevista' = 'Primera entrevista';
@@ -81,6 +82,7 @@ export class FormComponent implements OnInit {
       console.log('Entrevista guardada:', interview);
       this.form.reset();
       this.selectedType = 'Primera entrevista'; // Repristina el tipo de entrevista
+      this.interviewAdded.emit(); // Emitimos el evento para actualizar la lista
     } else {
       console.error('Formulario inválido');
       this.form.markAllAsTouched(); // Marca todos los campos como tocados para mostrar los errores
