@@ -60,17 +60,6 @@ export class StorageService {
   }
 
   /**
-   * Filtra las entrevistas según su tipo.
-   * @param {'Primera entrevista' | 'Segunda entrevista'} type - Tipo de entrevista a filtrar.
-   * @returns {Interview[]} Lista de entrevistas filtradas por tipo.
-   */
-  getInterviewsByType(
-    type: 'Primera entrevista' | 'Segunda entrevista'
-  ): Interview[] {
-    return this.interviews.filter((interview) => interview.type === type);
-  }
-
-  /**
    * Verifica si un candidato ha completado ambos tipos de entrevistas.
    * @param {string} email - Email del candidato.
    * @returns {boolean} True si el candidato ha completado ambas entrevistas.

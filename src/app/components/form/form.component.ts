@@ -94,7 +94,6 @@ export class FormComponent implements OnInit {
         type: this.selectedType
       };
       this.storageService.addInterview(interview); // Agrega la entrevista al servicio
-      console.log('Entrevista guardada:', interview);
 
       this.form.reset(); // Resetea el formulario
       this.selectedType = 'Primera entrevista'; // Reestablece el tipo de entrevista
@@ -102,7 +101,6 @@ export class FormComponent implements OnInit {
 
       this.interviewAdded.emit(); // Emite un evento para notificar cambios
     } else {
-      console.error('Formulario inválido');
       this.form.markAllAsTouched(); // Marca todos los campos como tocados para mostrar los errores
     }
   }

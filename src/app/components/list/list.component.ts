@@ -59,28 +59,14 @@ export class ListComponent implements OnInit {
    */
   getFilteredInterviews(): CombinedInterview[] {
     if (this.selectedFilter === 'primera') {
-      return this.interviews
-        .filter((interview) => interview.type === 'Primera entrevista')
-        .map((interview) => ({
-          name: interview.name,
-          surname: interview.surname,
-          email: interview.email,
-          phone: interview.phone,
-          primera: interview,
-          segunda: null,
-        }));
+      return this.getCombinedInterviews().filter(
+        (interview) => interview.primera !== null
+      );
     }
     if (this.selectedFilter === 'segunda') {
-      return this.interviews
-        .filter((interview) => interview.type === 'Segunda entrevista')
-        .map((interview) => ({
-          name: interview.name,
-          surname: interview.surname,
-          email: interview.email,
-          phone: interview.phone,
-          primera: null,
-          segunda: interview,
-        }));
+      return this.getCombinedInterviews().filter(
+        (interview) => interview.segunda !== null
+      );
     }
     return this.getCombinedInterviews(); // Devuelve las entrevistas combinadas para "all"
   }
