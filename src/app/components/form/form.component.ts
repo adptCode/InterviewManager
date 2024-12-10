@@ -9,81 +9,98 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
-  @Output() interviewAdded = new EventEmitter<void>();
 
-  form!: FormGroup;
-  selectedType: 'Primera entrevista' | 'Segunda entrevista' = 'Primera entrevista';
+  form!: FormGroup; // Objeto para gestionar el formulario reactivo
+  selectedType: 'Primera entrevista' | 'Segunda entrevista' = 'Primera entrevista'; // Tipo de entrevista seleccionada
+
+  @Output() interviewAdded = new EventEmitter<void>(); // Evento para notificar cuando se agrega una nueva entrevista
 
   constructor(
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private storageService: StorageService
+    private fb: FormBuilder,  // Servicio para crear formularios reactivos
+    private cdr: ChangeDetectorRef, // Servicio para forzar actualizaciones en la vista
+    private storageService: StorageService // Servicio para gestionar entrevistas
   ) { }
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.initializeForm(); // Inicializa el formulario al cargar el componente
   }
 
+  /**
+   * Inicializa el formulario con los campos requeridos y sus validaciones.
+   */
   initializeForm(): void {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\s]{2,50}$/)]],
       surname: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÀ-ÿ\s]{2,50}$/)]],
       email: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       phone: ['', [Validators.pattern(/^\+?[0-9]{9,15}$/)]],
-      physicalDescription: [''],
-      skillsDescription: [''],
-      technicalQuestionsScore: [null],
-      technicalTestScore: [null]
+      physicalDescription: [''], // No requerido
+      skillsDescription: [''], // No requerido
+      technicalQuestionsScore: [null], // Requerido solo en "Segunda entrevista"
+      technicalTestScore: [null] // No requerido
     });
   }
 
-  // Cambia el tipo de formulario según la selección del usuario
+  /**
+   * Cambia el tipo de entrevista según la selección del usuario.
+   * @param {Event} event - Evento del selector.
+   */
   onTypeChange(event: Event): void {
     const target = event.target as HTMLSelectElement | null;
     if (target) {
       this.selectedType = target.value as 'Primera entrevista' | 'Segunda entrevista';
-      this.updateFormFields();
-      this.cdr.detectChanges(); // Actualiza la vista del componente
+      this.updateFormFields(); // Actualiza las validaciones según el tipo seleccionado
+      this.cdr.detectChanges(); // Forza la actualización de la vista
     } else {
       console.error('Event target is null or not an HTMLSelectElement');
     }
   }
 
-   // Actualiza las validaciones de los campos dependiendo del tipo seleccionado
+   /**
+   * Actualiza las validaciones de los campos según el tipo de entrevista seleccionado.
+   */
    updateFormFields(): void {
     if (this.selectedType === 'Primera entrevista') {
-      this.form.get('physicalDescription')?.setValidators([]);
-      this.form.get('skillsDescription')?.setValidators([]);
-      this.form.get('technicalQuestionsScore')?.clearValidators();
-      this.form.get('technicalQuestionsScore')?.setValue(null);
+      this.form.get('physicalDescription')?.setValidators([]); // Sin validaciones
+      this.form.get('skillsDescription')?.setValidators([]); // Sin validaciones
+      this.form.get('technicalQuestionsScore')?.clearValidators(); // Se limpia la validación
+      this.form.get('technicalQuestionsScore')?.setValue(null); // Resetea el campo
     } else {
-      this.form.get('technicalQuestionsScore')?.setValidators([Validators.required]);
-      this.form.get('physicalDescription')?.clearValidators();
+      this.form.get('technicalQuestionsScore')?.setValidators([Validators.required]); // Es requerido
+      this.form.get('physicalDescription')?.clearValidators(); // Se limpia la validación
     }
-    this.form.updateValueAndValidity();
+    this.form.updateValueAndValidity();  // Actualiza el estado del formulario
   }
 
-  // Devuelve si un campo tiene errores y el tipo de error
-  hasErrors(field: string, typeError: string) {
+  /**
+   * Verifica si un campo tiene errores y el tipo de error.
+   * @param {string} field - Nombre del campo a verificar.
+   * @param {string} typeError - Tipo de error a comprobar.
+   * @returns {boolean} True si el campo tiene el error especificado.
+   */
+  hasErrors(field: string, typeError: string): boolean {
     return (
-      this.form.get(field)?.hasError(typeError) && this.form.get(field)?.touched
+      (this.form.get(field)?.hasError(typeError) ?? false) && (this.form.get(field)?.touched ?? false)
     );
   }
 
-
-  // Envía los datos del formulario si son válidos
+  /**
+   * Maneja el envío del formulario, validando y almacenando los datos en caso de éxito.
+   */
   onSubmit(): void {
     if (this.form.valid) {
       const interview: Interview = {
         ...this.form.value,
         type: this.selectedType
       };
-      this.storageService.addInterview(interview);
+      this.storageService.addInterview(interview); // Agrega la entrevista al servicio
       console.log('Entrevista guardada:', interview);
-      this.form.reset();
-      this.selectedType = 'Primera entrevista'; // Repristina el tipo de entrevista
-      this.updateFormFields(); // Actualiza las validaciones de los campos
-      this.interviewAdded.emit(); // Emitimos el evento para actualizar la lista
+
+      this.form.reset(); // Resetea el formulario
+      this.selectedType = 'Primera entrevista'; // Reestablece el tipo de entrevista
+      this.updateFormFields(); // Actualiza las validaciones para "Primera entrevista"
+
+      this.interviewAdded.emit(); // Emite un evento para notificar cambios
     } else {
       console.error('Formulario inválido');
       this.form.markAllAsTouched(); // Marca todos los campos como tocados para mostrar los errores
