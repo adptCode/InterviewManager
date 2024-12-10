@@ -39,18 +39,22 @@ export class StorageService {
   }
 
   /**
-   * Agrega una nueva entrevista, evitando duplicados del mismo tipo para el mismo email.
-   * @param {Interview} interview - Entrevista a agregar.
-   */
-  addInterview(interview: Interview): void {
-    const exists = this.interviews.some(
-      (i) => i.email === interview.email && i.type === interview.type
-    );
-    if (!exists) {
-      this.interviews.push(interview);
-      this.saveInterviews(); // Guardar en localStorage
-    }
-  }
+ * Agrega una nueva entrevista, reemplazando cualquier entrevista previa del mismo tipo
+ * para el mismo email. Esto asegura que solo la última versión sea almacenada.
+ * @param {Interview} interview - Entrevista a agregar.
+ */
+addInterview(interview: Interview): void {
+  // Remueve cualquier entrevista previa del mismo tipo para el mismo email
+  this.interviews = this.interviews.filter(
+    (i) => !(i.email === interview.email && i.type === interview.type)
+  );
+
+  // Agrega la nueva entrevista
+  this.interviews.push(interview);
+
+  // Guarda los cambios
+  this.saveInterviews();
+}
 
   /**
    * Obtiene las entrevistas filtradas por tipo.
