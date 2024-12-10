@@ -1,27 +1,51 @@
-# InterviewManager
+# Prueba Técnica en Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+## Introducción
 
-## Development server
+Esta aplicación fue desarrollada como respuesta a una prueba técnica que requiere el uso de **Angular 16** para gestionar formularios reutilizables destinados a entrevistas. Aunque mi enfoque habitual es trabajar con soluciones modernas, como los **componentes standalone** introducidos en Angular 16, he optado por utilizar la configuración tradicional basada en módulos para asegurar la máxima compatibilidad con entornos que podrían no estar completamente adaptados a las nuevas funcionalidades.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+El proyecto sigue las mejores prácticas en cuanto a:
+- Arquitectura de componentes y servicios para un código limpio y mantenible.
+- Validaciones de formularios con mensajes específicos para errores comunes.
+- Persistencia de datos en `localStorage` para garantizar la continuidad entre sesiones.
+- Uso de **Bootstrap** para un diseño simple pero funcional.
 
-## Code scaffolding
+El objetivo fue desarrollar una solución completa, funcional e intuitiva, cumpliendo con todos los requisitos indicados en la prueba técnica.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologías Utilizadas
 
-## Build
+- **Framework**: Angular 16.
+- **Estilos**: Bootstrap.
+- **Persistencia de Datos**: `localStorage`.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Instrucciones para Ejecutar el Proyecto
 
-## Running unit tests
+1. **Descomprimir el archivo zip**  
+   Descargue y descomprima el archivo zip del proyecto en su máquina local.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. **Abrir una terminal en la carpeta del proyecto**  
+   Navegue hasta la carpeta del proyecto descomprimido utilizando la terminal.
 
-## Running end-to-end tests
+3. **Instalar dependencias**  
+   Ejecute el siguiente comando para instalar las dependencias necesarias:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+   ```bash
+   npm install
+   ```
 
-## Further help
+4. **Ejecutar en modo desarrollo**
+   Use el comando siguiente para iniciar el servidor de desarrollo:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+   ```bash
+   npm start
+   ```
+   Esto iniciará un servidor en [http://localhost:4200](http://localhost:4200).
+
+5. **Construir para producción**
+   Para generar la versión optimizada del proyecto:
+
+   ```bash
+   npm run build
+   ```
+   Los archivos construidos estarán en la carpeta dist/.
+
