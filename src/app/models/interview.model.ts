@@ -10,3 +10,13 @@ export interface Interview {
   technicalQuestionsScore: number;
   technicalTestScore?: number;
 }
+
+
+export interface CombinedInterview {
+  email: string;
+  name: string;
+  surname: string;
+  phone?: string;
+  primera: Interview | null;
+  segunda: Interview | null;
+}

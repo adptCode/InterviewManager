@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Interview } from 'src/app/models/interview.model';
+import { Interview, CombinedInterview } from 'src/app/models/interview.model';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
@@ -26,10 +26,10 @@ export class ListComponent implements OnInit {
 
   /**
    * Obtiene las entrevistas combinadas por email cuando el filtro es "all".
-   * @returns {any[]} Array de entrevistas combinadas.
+   * @returns {CombinedInterview[]} Array de entrevistas combinadas.
    */
   getCombinedInterviews(): any[] {
-    const combined: { [email: string]: any } = {};
+    const combined: { [email: string]: CombinedInterview } = {};
 
     this.interviews.forEach((interview) => {
       if (!combined[interview.email]) {
@@ -55,9 +55,9 @@ export class ListComponent implements OnInit {
 
   /**
    * Filtra las entrevistas según el tipo seleccionado.
-   * @returns {Interview[] | any[]} Array de entrevistas filtradas.
+   * @returns {CombinedInterview[]} Array de entrevistas filtradas.
    */
-  getFilteredInterviews(): any[] {
+  getFilteredInterviews(): CombinedInterview[] {
     if (this.selectedFilter === 'primera') {
       return this.interviews
         .filter((interview) => interview.type === 'Primera entrevista')
