@@ -19,33 +19,40 @@
         <th>Apellido</th>
         <th>Email</th>
         <th>Teléfono</th>
-        <!-- Encabezados dinámicos -->
+        <!-- Mostrar columnas específicas solo para "all" o "primera" -->
         <th *ngIf="selectedFilter === 'all' || selectedFilter === 'primera'">Descripción Física</th>
         <th *ngIf="selectedFilter === 'all' || selectedFilter === 'primera'">Descripción de Aptitudes</th>
+        <!-- Mostrar columnas específicas solo para "all" o "segunda" -->
         <th *ngIf="selectedFilter === 'all' || selectedFilter === 'segunda'">Nota Preguntas Técnicas</th>
         <th *ngIf="selectedFilter === 'all' || selectedFilter === 'segunda'">Nota Prueba Técnica</th>
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let interview of getFilteredInterviews()"
-        [ngClass]="{'table-success': hasBothInterviews(interview.email)}"
-      >
+      <tr *ngFor="let interview of getFilteredInterviews()"
+        [ngClass]="{'table-success': hasBothInterviews(interview.email)}">
         <td>{{ interview.name }}</td>
         <td>{{ interview.surname }}</td>
         <td>{{ interview.email }}</td>
-        <td>{{ interview.phone || 'N/A' }}</td>
+        <td>{{ interview.phone || 'No proporcionado' }}</td>
+        <!-- Primera entrevista -->
+        <td *ngIf="selectedFilter === 'all' || selectedFilter === 'primera'">
+          <!-- Si el campo pertenece a una entrevista completada pero no fue respondido, mostramos 'No respondida'.
+               Si la entrevista no está completada, mostramos 'No completada'. -->
+          {{ interview.primera?.physicalDescription || (interview.primera ? 'No respondida' : 'No completada') }}
+        </td>
+        <td *ngIf="selectedFilter === 'all' || selectedFilter === 'primera'">
+          <!-- Lógica similar para la descripción de aptitudes -->
+          {{ interview.primera?.skillsDescription ||
+          (interview.primera ? 'No respondida' : 'No completada') }}
+        </td>
 
-        <!-- Campos dinámicos para Primera Entrevista -->
-        <td *ngIf="interview.type === 'Primera entrevista'">{{ interview.physicalDescription || 'N/A' }}</td>
-        <td *ngIf="interview.type === 'Primera entrevista'">{{ interview.skillsDescription || 'N/A' }}</td>
-
-        <!-- Campos dinámicos para Segunda Entrevista -->
-        <td *ngIf="interview.type === 'Segunda entrevista'">{{ interview.technicalQuestionsScore || 'N/A' }}</td>
-        <td *ngIf="interview.type === 'Segunda entrevista'">{{ interview.technicalTestScore || 'N/A' }}</td>
+        <!-- Segunda entrevista -->
+        <td *ngIf="selectedFilter === 'all' || selectedFilter === 'segunda'">
+          <!-- Aplicamos la misma lógica para los campos de la segunda entrevista -->
+          {{ interview.segunda?.technicalQuestionsScore || (interview.segunda ? 'No respondida' : 'No completada') }}</td>
+        <td *ngIf="selectedFilter === 'all' || selectedFilter === 'segunda'">{{ interview.segunda?.technicalTestScore ||
+          (interview.segunda ? 'No respondida' : 'No completada') }}</td>
       </tr>
     </tbody>
   </table>
 </div>
-
-

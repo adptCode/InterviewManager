@@ -25,17 +25,64 @@ export class ListComponent implements OnInit {
   }
 
   /**
-   * Filtra las entrevistas según el tipo seleccionado.
-   * @returns {Interview[]} Array de entrevistas filtradas.
+   * Obtiene las entrevistas combinadas por email cuando el filtro es "all".
+   * @returns {any[]} Array de entrevistas combinadas.
    */
-  getFilteredInterviews(): Interview[] {
+  getCombinedInterviews(): any[] {
+    const combined: { [email: string]: any } = {};
+
+    this.interviews.forEach((interview) => {
+      if (!combined[interview.email]) {
+        combined[interview.email] = {
+          email: interview.email,
+          name: interview.name,
+          surname: interview.surname,
+          phone: interview.phone,
+          primera: null,
+          segunda: null,
+        };
+      }
+
+      if (interview.type === 'Primera entrevista') {
+        combined[interview.email].primera = interview;
+      } else if (interview.type === 'Segunda entrevista') {
+        combined[interview.email].segunda = interview;
+      }
+    });
+
+    return Object.values(combined);
+  }
+
+  /**
+   * Filtra las entrevistas según el tipo seleccionado.
+   * @returns {Interview[] | any[]} Array de entrevistas filtradas.
+   */
+  getFilteredInterviews(): any[] {
     if (this.selectedFilter === 'primera') {
-      return this.interviews.filter((interview) => interview.type === 'Primera entrevista');
+      return this.interviews
+        .filter((interview) => interview.type === 'Primera entrevista')
+        .map((interview) => ({
+          name: interview.name,
+          surname: interview.surname,
+          email: interview.email,
+          phone: interview.phone,
+          primera: interview,
+          segunda: null,
+        }));
     }
     if (this.selectedFilter === 'segunda') {
-      return this.interviews.filter((interview) => interview.type === 'Segunda entrevista');
+      return this.interviews
+        .filter((interview) => interview.type === 'Segunda entrevista')
+        .map((interview) => ({
+          name: interview.name,
+          surname: interview.surname,
+          email: interview.email,
+          phone: interview.phone,
+          primera: null,
+          segunda: interview,
+        }));
     }
-    return this.interviews; // Todos los registros
+    return this.getCombinedInterviews(); // Devuelve las entrevistas combinadas para "all"
   }
 
   /**
