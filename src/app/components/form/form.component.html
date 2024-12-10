@@ -2,7 +2,7 @@
   <h2>Introducir datos de la entrevista</h2>
   <div class="mb-3">
     <label for="typeSelector" class="form-label">Tipo de entrevista</label>
-    <select id="typeSelector" class="form-select" (change)="onTypeChange($event)">
+    <select id="typeSelector" class="form-select" [(ngModel)]="selectedType" (change)="onTypeChange($event)">
       <option value="Primera entrevista">Primera entrevista</option>
       <option value="Segunda entrevista">Segunda entrevista</option>
     </select>

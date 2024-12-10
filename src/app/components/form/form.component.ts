@@ -82,6 +82,7 @@ export class FormComponent implements OnInit {
       console.log('Entrevista guardada:', interview);
       this.form.reset();
       this.selectedType = 'Primera entrevista'; // Repristina el tipo de entrevista
+      this.updateFormFields(); // Actualiza las validaciones de los campos
       this.interviewAdded.emit(); // Emitimos el evento para actualizar la lista
     } else {
       console.error('Formulario inválido');

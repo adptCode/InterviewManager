@@ -2,78 +2,86 @@ import { Injectable } from '@angular/core';
 import { Interview } from '../models/interview.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
-  private interviewsKey = 'interviews'; // Clave para localStorage
+  private interviewsKey = 'interviews'; // Clave para identificar los datos en localStorage
 
   constructor() {
-    this.loadInterviews();
+    this.loadInterviews(); // Cargar los datos de entrevistas al inicializar el servicio
   }
 
-  private interviews: Interview[] = []; // Array para almacenar las entrevistas
+  private interviews: Interview[] = []; // Array para almacenar temporalmente las entrevistas en memoria
 
   /**
-   * Carga las entrevistas desde localStorage al inicializar el servicio.
+   *  Carga las entrevistas almacenadas en localStorage al inicializar el servicio.
    */
   private loadInterviews(): void {
     const data = localStorage.getItem(this.interviewsKey);
     if (data) {
-      this.interviews = JSON.parse(data);
+      this.interviews = JSON.parse(data); // Convertimos los datos almacenados a un array de entrevistas
     }
   }
 
   /**
-   * Guarda las entrevistas en localStorage.
+   * Guarda las entrevistas actuales en localStorage
    */
   private saveInterviews(): void {
     localStorage.setItem(this.interviewsKey, JSON.stringify(this.interviews));
   }
 
   /**
-   * Obtiene todas las entrevistas almacenadas.
-   * @returns {Interview[]} Array de entrevistas.
+   * Obtiene todas las entrevistas almacenadas en memoria.
+   * @returns {Interview[]} Lista completa de entrevistas.
    */
   getInterviews(): Interview[] {
     return this.interviews;
   }
 
   /**
- * Agrega una nueva entrevista, reemplazando cualquier entrevista previa del mismo tipo
- * para el mismo email. Esto asegura que solo la última versión sea almacenada.
- * @param {Interview} interview - Entrevista a agregar.
- */
-addInterview(interview: Interview): void {
-  // Remueve cualquier entrevista previa del mismo tipo para el mismo email
-  this.interviews = this.interviews.filter(
-    (i) => !(i.email === interview.email && i.type === interview.type)
-  );
+   * Agrega una nueva entrevista al array y la guarda en localStorage.
+   * Si ya existe una entrevista del mismo tipo para el mismo email, la reemplaza.
+   * @param {Interview} interview - Entrevista a agregar o reemplazar.
+   */
+  addInterview(interview: Interview): void {
+    const index = this.interviews.findIndex(
+      (i) => i.email === interview.email && i.type === interview.type
+    );
 
-  // Agrega la nueva entrevista
-  this.interviews.push(interview);
+    if (index !== -1) {
+      // Reemplaza la entrevista existente
+      this.interviews[index] = interview;
+    } else {
+      // Agrega una nueva entrevista
+      this.interviews.push(interview);
+    }
 
-  // Guarda los cambios
-  this.saveInterviews();
-}
+    this.saveInterviews(); // Guarda los cambios en localStorage
+  }
 
   /**
-   * Obtiene las entrevistas filtradas por tipo.
-   * @param {'Primera entrevista' | 'Segunda entrevista'} type - Tipo de entrevista.
-   * @returns {Interview[]} Array de entrevistas filtradas.
+   * Filtra las entrevistas según su tipo.
+   * @param {'Primera entrevista' | 'Segunda entrevista'} type - Tipo de entrevista a filtrar.
+   * @returns {Interview[]} Lista de entrevistas filtradas por tipo.
    */
-  getInterviewsByType(type: 'Primera entrevista' | 'Segunda entrevista'): Interview[] {
+  getInterviewsByType(
+    type: 'Primera entrevista' | 'Segunda entrevista'
+  ): Interview[] {
     return this.interviews.filter((interview) => interview.type === type);
   }
 
   /**
-   * Verifica si un candidato ha completado ambas entrevistas.
+   * Verifica si un candidato ha completado ambos tipos de entrevistas.
    * @param {string} email - Email del candidato.
-   * @returns {boolean} True si ambas entrevistas están completadas.
+   * @returns {boolean} True si el candidato ha completado ambas entrevistas.
    */
   hasBothInterviews(email: string): boolean {
     const types = this.interviews
       .filter((interview) => interview.email === email)
       .map((interview) => interview.type);
-    return types.includes('Primera entrevista') && types.includes('Segunda entrevista');
+    return (
+      types.includes('Primera entrevista') &&
+      types.includes('Segunda entrevista')
+    );
   }
 }
