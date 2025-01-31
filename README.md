@@ -1,51 +1,61 @@
-# Prueba Técnica en Angular
+# 🎯 Interview Manager - Angular 16 Application
 
-## Introducción
+Welcome to **Interview Manager**, an Angular 16 application developed as part of a technical test. The goal of this project is to manage **reusable forms for interviews**, ensuring a clean, maintainable, and user-friendly experience.
 
-Esta aplicación fue desarrollada como respuesta a una prueba técnica que requiere el uso de **Angular 16** para gestionar formularios reutilizables destinados a entrevistas. Aunque mi enfoque habitual es trabajar con soluciones modernas, como los **componentes standalone** introducidos en Angular 16, he optado por utilizar la configuración tradicional basada en módulos para asegurar la máxima compatibilidad con entornos que podrían no estar completamente adaptados a las nuevas funcionalidades.
+---
 
-El proyecto sigue las mejores prácticas en cuanto a:
-- Arquitectura de componentes y servicios para un código limpio y mantenible.
-- Validaciones de formularios con mensajes específicos para errores comunes.
-- Persistencia de datos en `localStorage` para garantizar la continuidad entre sesiones.
-- Uso de **Bootstrap** para un diseño simple pero funcional.
+## 🌟 Features
+- **Component & Service Architecture**: Clean and scalable structure for better maintainability.
+- **Form Validations**: Specific error messages for common validation issues.
+- **Local Storage Persistence**: Ensures session continuity by saving data locally.
+- **Bootstrap Styling**: Simple yet functional design using Bootstrap.
+- **Module-based Approach**: Although Angular 16 introduced **Standalone Components**, this project follows the traditional **module-based configuration** for better compatibility across different environments.
 
-El objetivo fue desarrollar una solución completa, funcional e intuitiva, cumpliendo con todos los requisitos indicados en la prueba técnica.
+---
 
-## Tecnologías Utilizadas
+## 📋 Installation Guide
 
-- **Framework**: Angular 16.
-- **Estilos**: Bootstrap.
-- **Persistencia de Datos**: `localStorage`.
+### 1️⃣ Clone or Extract the Project
+Download and extract the project ZIP file to your local machine
 
-## Instrucciones para Ejecutar el Proyecto
+### 2️⃣ Open a Terminal in the Project Directory
+Navigate to the project folder using a terminal.
 
-1. **Descomprimir el archivo zip**  
-   Descargue y descomprima el archivo zip del proyecto en su máquina local.
+### 3️⃣ Install Dependencies
+```bash
+npm install
+```
 
-2. **Abrir una terminal en la carpeta del proyecto**  
-   Navegue hasta la carpeta del proyecto descomprimido utilizando la terminal.
+### 4️⃣ Run in Development Mode
+```bash
+npm start
+```
+This will start a development server at `http://localhost:4200/`.
 
-3. **Instalar dependencias**  
-   Ejecute el siguiente comando para instalar las dependencias necesarias:
+### 5️⃣ Build for Production
+To generate an optimized production-ready build, run:
+```bash
+npm run build
+```
+The built files will be available in the `dist/` folder.
 
-   ```bash
-   npm install
-   ```
+---
 
-4. **Ejecutar en modo desarrollo**
-   Use el comando siguiente para iniciar el servidor de desarrollo:
+## 🛠️ Tech Stack
+- **Framework**: Angular 16
+- **Styling**: Bootstrap
+- **Data Persistence**: Local Storage
 
-   ```bash
-   npm start
-   ```
-   Esto iniciará un servidor en [http://localhost:4200](http://localhost:4200).
+---
 
-5. **Construir para producción**
-   Para generar la versión optimizada del proyecto:
+## 🤝 Contributing
+Contributions are welcome! Feel free to fork the repository and submit a pull request with your improvements.
 
-   ```bash
-   npm run build
-   ```
-   Los archivos construidos estarán en la carpeta dist/.
+---
+
+## 📜 License
+This project is licensed under the **MIT License**.
+
+🚀 **Happy coding!**
+
 
